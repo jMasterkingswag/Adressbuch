@@ -34,8 +34,9 @@ def create(request, template = "adressbuch/contact/create.html"):
 			return HttpResponseRedirect(reverse('show_contact'))
 	else:
 		contact_form = ContactForm(user=request.user)
-		adress_formset = AdressFormSet(prefix='form-control')
-
+		adress_formset = AdressFormSet()
+		if adress_formset != None:
+			print "Hi"
 	return render(request, template,
 			{
 				'contact_form': contact_form,
@@ -97,7 +98,7 @@ def update(request, pk, template="adressbuch/contact/update.html"):
 		raise Http404
 
 	if request.method == "POST":
-		contact_form = ContactForm(request.POST, instance=contact)
+		contact_form = ContactUpdateForm(request.POST, instance=contact)
 		adress_formset = AdressFormSet(request.POST, instance=contact) 
 
 		if contact_form.is_valid() and adress_formset.is_valid():
@@ -108,9 +109,12 @@ def update(request, pk, template="adressbuch/contact/update.html"):
 		else:
 			return HttpResponseServerError
 	else:
-		contact_form = ContactForm(instance=contact)
+		contact_form = ContactUpdateForm(instance=contact)
 		adress_formset = AdressFormSet(instance=contact)
-
+		
+		print contact_form
+		print adress_formset
+		
 		kwvars = {
 			'contact_form': contact_form,
 			'adress_formset': adress_formset,

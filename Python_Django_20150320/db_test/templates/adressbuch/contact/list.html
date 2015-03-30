@@ -1,16 +1,27 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends 'adressbuch/base.html' %}
+
 {% load static %}
 
+{% block title_block %}
+	Show Contats
+{% endblock %}
+
+{% block body_block %}
 {% if object_list %}
-<ul>
+<ul class="list-group">
 	{% for object in object_list %}
-	<li>{{ object }}</li>
+	<li class="list-group-item"><a href="{% url 'update_contact' object.pk %}">{{ object }}</a></li>
 	{% endfor %}
 </ul>
+<br>
 
-<p>Current page: {{ current_page }}</p>
+<div class="col-md-4">
+	<p>Current page: {{ current_page }}</p>
+</div>
+<div class="col-md-4">
+	<button class="btn btn-default">hinzuf&uuml;gen</button>
+</div>
+
 
 {% if has_next and next_page_number != None %}
 	<a href="{% url 'show' next_page_number %}">next</a>
@@ -19,5 +30,4 @@
 {% else %}
 <h2>hat nicht funktioniert</h2>
 {% endif %}
-</body>
-</html>
+ {% endblock %}

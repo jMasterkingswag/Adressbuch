@@ -35,7 +35,7 @@ class Adress(models.Model):
 	zip_code = models.CharField(max_length = 10)
 
 	def __unicode__(self):
-		return "%s, %s %s, %s" % (self.street, self.zip_code, self.city, self.state)
+		return "a"
 
 	class Meta:
 		verbose_name_plural = "Adresses"

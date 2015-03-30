@@ -10,4 +10,21 @@
 	{% if contact_form %}
 		{{ contact_form }}
 	{% endif %}
+
+	{% if adress_formset %}
+		{{ adress_formset.management_form }}
+	
+		<div id="adress_input">
+			<strong>Adresse</strong>
+			<br>
+			{% for form in adress_formset.forms %}
+			{% for field in form.visible_fields %}
+				{{ field.label }}{{ field }}
+			{% endfor %}
+			{% endfor %}
+			<button class="btn glyphicon glyphicon-plus"></button>
+		</div>
+	{% else %}
+		lala
+	{% endif %}
 {% endblock %}
