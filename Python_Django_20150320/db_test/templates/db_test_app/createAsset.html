@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+	{% if assetForm %}
+	<div class="container col-md-6">
+		<form role="form" class="form-horizontal">
+			{% csrf_token %}
+			{% for field in assetForm %}
+			<div class="form-group">
+				<label>{{ field.label }}</label>
+				{{ field }}
+			</div>
+			{% endfor %}
+		</form>
+	</div>
+	{% endif %}
+{% endblock %}

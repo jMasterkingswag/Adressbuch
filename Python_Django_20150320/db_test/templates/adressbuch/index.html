@@ -1,0 +1,18 @@
+{% extends 'adressbuch_base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+<h1>Adressbuch</h1>
+
+{% if contacts %}
+<ul class="list-group">
+	{% for contact in contacts %}
+	<li class="list-group-item"><a href="{% url 'single_contact' contact.pk %}">{{ contact }}</a></li>
+	{% endfor %}
+</ul>
+{% else %}
+	<h3>Keine Kontakte vorhanden</h3>
+{% endif %}
+<a href="{% url 'add_contact' %}">Kontakt erstellen</a>
+{% endblock %}

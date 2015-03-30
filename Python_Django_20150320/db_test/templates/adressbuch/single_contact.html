@@ -1,0 +1,30 @@
+{% extends 'adressbuch_base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+{% if contact %}
+	<div class="col-md-3">
+		<div class="container">
+			<img src="http://www.afcb.co.uk/images/common/bg_player_profile_default_big.png" alt="profilbild" height=225 width=230/>
+		</div>
+	</div>
+
+	<div class="col-md-9">
+		<h1>{{ contact }}</h1>
+		{% if adresses %}
+		<h2>Adressen</h2>
+		<div class="container">
+			<table class="table">
+			{% for adress in adresses %}
+				<a href="https://www.google.de/maps/place/{{adress}}" target="_blank">{{ adress }}</a>
+			{% endfor %}
+			</table>
+		</div>
+<a href="{% url 'adressbuch_index' %}">zur&uuml;ck</a>
+	</div>
+	{% endif %}
+{% endif %}
+
+
+{% endblock %}

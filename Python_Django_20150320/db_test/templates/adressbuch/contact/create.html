@@ -1,0 +1,13 @@
+{% extends 'adressbuch/base.html' %}
+
+{% load static %}
+
+{% block title_block %}
+	Create 
+{% endblock %}
+
+{% block body_block %}
+	{% if contact_form %}
+		{{ contact_form }}
+	{% endif %}
+{% endblock %}

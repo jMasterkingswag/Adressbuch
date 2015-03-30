@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+<body>
+<form action="post" >
+<!-- Contact -->
+<h1>Contact</h1>
+{% csrf_token %}
+{% if contactForm %}
+	{{ contactForm }}
+{% endif %}
+
+{% if residenceForm %}
+	{{ residenceForm }}
+{% endif %}
+
+{% if streetForm %}
+	{{ streetForm }}
+{% endif %}
+
+{% if adressForm %}
+	{{ adressForm }}
+{% endif %}
+
+	
+<h1>Residence</h1>
+<!-- Residence -->
+<ul>
+<li>
+	<label for="zip_code">Zip Code</label>
+	<input type="text" name="zip_code" />
+</li><li>
+	<label for="residence_name">Residence Name</label>
+	<input type="text" name="residence_name" />
+</li><li>
+	<label for="name_adding">Name Adding</label>
+	<input type="text" name="name_adding" />
+</li>
+<!-- StreetNumber -->
+</ul>
+</form>
+</body>

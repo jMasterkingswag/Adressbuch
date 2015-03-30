@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+{% load static %}
+
+{% if object_list %}
+<ul>
+	{% for object in object_list %}
+	<li>{{ object }}</li>
+	{% endfor %}
+</ul>
+
+<p>Current page: {{ current_page }}</p>
+
+{% if has_next and next_page_number != None %}
+	<a href="{% url 'show' next_page_number %}">next</a>
+{% endif %}
+
+{% else %}
+<h2>hat nicht funktioniert</h2>
+{% endif %}
+</body>
+</html>

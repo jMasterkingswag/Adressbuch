@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load mptt_tags %}
+
+{% block body_block %}
+	
+	{% if categories %}
+		<ul class="list-group">
+		{% recursetree categories %}
+			<li>
+				{% if node.is_root_node %}
+				<h3>
+				<a href="{% url 'showAssets' node.category_name %}">{{ node.category_name }}</a>
+				</h3>
+				{% else %}
+				<a href="{% url 'showAssets' node.category_name %}">{{ node.category_name }}</a>
+				{% endif %}
+				<!--<span class="badge">{{ node.asset__count }}</span>-->
+				{% if not node.is_lead_node %}
+				<ul class="children">
+					{{ children }}
+				</ul>
+				{% endif %}
+			</li>
+		{% endrecursetree %}
+		</ul>
+	
+	{% else %}
+	
+	<h2>no Categories</h2>
+	
+	{% endif %}
+
+{% endblock %}

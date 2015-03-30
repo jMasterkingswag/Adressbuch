@@ -1,0 +1,30 @@
+{% extends 'adressbuch_base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+<h1>Adressbuch</h1>
+
+<form role="form" method="post" action="{% url 'add_contact' %}">
+	<div class="form-group">
+	{% csrf_token %}
+	{% for field in contact_form %}
+		{{ field.label }}{{ field }}
+	{% endfor %}
+	{{ adress_formset.management_form }}
+	
+		<div id="adress_input">
+			<strong>Adresse</strong>
+			<br>
+			{% for form in adress_formset.forms %}
+			{% for field in form.visible_fields %}
+				{{ field.label }}{{ field }}
+			{% endfor %}
+			{% endfor %}
+			<button class="btn glyphicon glyphicon-plus"></button>
+		</div>
+		
+	</div>
+	<input class="btn btn-default" type="submit" value="speichern"/>
+</form>
+{% endblock %}

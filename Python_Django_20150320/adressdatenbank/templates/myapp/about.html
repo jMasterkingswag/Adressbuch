@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load static %}
+	
+	{% block title %}
+		this ist the about page
+	{% endblock %}
+	
+	{% block body_block %}
+		<header>
+			you visited this page {{ about_visits }} times
+		</header>
+		<h1>This is the about page</h1>
+		<h2>{{ a }}</h2>
+		<a href="{% url 'index' %}">Back</a>
+		<br />
+		<img src="{% static 'images/rango.jpg' %}" alt="Image of Rango" />
+	{% endblock %}

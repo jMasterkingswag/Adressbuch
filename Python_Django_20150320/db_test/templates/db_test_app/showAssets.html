@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+	
+	{% if assets %}
+		<ul class="list-group">
+		{% for asset in assets %}
+			<li class="list-group-item">
+				<a href="{% url 'assetDetail' asset.pk %}">{{asset}}</a>
+			</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+
+{% endblock %}

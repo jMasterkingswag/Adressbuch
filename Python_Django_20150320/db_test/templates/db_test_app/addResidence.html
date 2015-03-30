@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+	
+	{% if residenceForm %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			Add a Residence
+		</div>
+		<div class="panel-body">
+			<form role="form-horizontal" method="post" action="/db_test_app/createResidence" >
+				{% csrf_token %}
+				{% for field in residenceForm %}
+				<div class="form-group">
+					<label class="col-sm-3 control-label"> {{ field.label }} </label>
+					<div class="col-sm-9">
+					{{ field }}
+						<p class="help-block">Lorem ipsum</p>
+					</div>
+				</div>
+				{% endfor %}
+				
+				<button class="btn btn-default" type="submit">Submit</button>
+			</form>
+		</div>
+	</div>
+	{% endif %}
+	
+{% endblock %}

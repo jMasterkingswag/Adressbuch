@@ -1,0 +1,16 @@
+{% extends 'adressbuch_base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+{% if object_list %}
+<ul>
+	{% for object in object_list %}
+	<li>lala</li>
+	<li>{{ object }}</li>
+	{% endfor %}
+</ul>
+{% else %}
+<h2>hat nicht funktioniert</h2>
+{% endif %}
+{% endblock %}
