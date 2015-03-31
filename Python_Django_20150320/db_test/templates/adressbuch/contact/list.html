@@ -8,25 +8,103 @@
 
 {% block body_block %}
 {% if object_list %}
-<ul class="list-group">
-	{% for object in object_list %}
-	<li class="list-group-item"><a href="{% url 'update_contact' object.pk %}">{{ object }}{{ object.pk }}</a></li>
-	{% endfor %}
+<div>
+    <br>
+
+	<table class="table table-striped table-hover table-condensed">
+		<thead>
+		</thead>
+
+		<tbody>
+		{% for object in object_list %}
+			<tr>
+				<td class="col-sm-9">
+					<a href="{% url 'contact_detail' object.pk %}">{{ object }}</a>
+				</td>
+				<td>
+					<a class="glyphicon glyphicon-pencil "href="{% url 'update_contact' object.pk %}"></a>
+				</td>
+				<td>
+					<a class="glyphicon glyphicon-remove "href="{% url 'delete_contact' object.pk %}"></a>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	<ul class="pager">
+		{% if has_previous and previous_page_number != None %}
+		<li class="previous">
+			{% if search %}
+			<a href="{% url 'show_contact' search previous_page_number %}">&larr; Older</a></li>
+			{% else %}
+			<a href="{% url 'show_contact' previous_page_number %}">&larr; Older</a></li>
+			{% endif %}
+		{% else %}
+		<li class="previous disabled"><a href="#">&larr; Older</a></li> 
+		{% endif %}
+
+		<li class="current"><strong>{{ current_page }} / {{ max_pages }}</strong></li>
+
+		{% if has_next and next_page_number != None %}
+		<li class="next">
+			{% if search %}
+			<a href="{% url 'show_contact' search next_page_number %}">Newer &rarr;</a></li>
+			{% else %} 
+			<a href="{% url 'show_contact' next_page_number %}">Newer &rarr;</a></li> 
+			{% endif %}
+		{% else %}
+		<li class="next disabled"><a href="#">Newer &rarr;</a></li> 
+		{% endif %}
+	</ul>
+</div>
+<!--
+<div class="container">
+	
+	<div class="col-sm-2">
+	{% if has_previous and previous_page_number != None %}
+		<a class="glyphicon glyphicon-chevron-left" href="{% url 'show_contact' previous_page_number %}"></a>
+	{% endif %}
+	{% if has_next and next_page_number != None %}
+		<a class="glyphicon glyphicon-chevron-right" href="{% url 'show_contact' next_page_number %}"></a>
+	{% endif %}
+	</div>
+
+	<div class="col-sm-2">
+		<p>Current page: {{ current_page }} / {{ max_pages }}</p>
+	</div>
+	<div class="col-sm-6">
+	</div>
+	<div class="col-sm-2">
+		<a class="glyphicon glyphicon-plus" href="{% url 'create_contact' %}"></a>
+	</div>
+</div>
+
+<ul class="pagination">
+	{% if has_previous and previous_page_number != None %}
+	
+	{% if current_page > 2 %}
+	<li><a href="#">&laquo;</a></li>
+	{% else %}
+	<li class="active"><a href="#">&laquo;</a></li>
+	{% endif %}
+
+	<li><a href="{% url 'show_contact' previous_page_number %}">{{previous_page_number}}</a></li>
+	{% endif %}
+
+	<li class="active"><a href="{% url 'show_contact' current_page %}">{{current_page}}</a></li>
+	{% if has_next and next_page_number != None %}
+	<li><a href="{% url 'show_contact' next_page_number %}">{{ next_page_number }}</a></li>
+	{% endif %}
+	<li><a href="#">&raquo;</a></li>
 </ul>
-<br>
 
-<div class="col-md-4">
-	<p>Current page: {{ current_page }}</p>
-</div>
-<div class="col-md-4">
-	<button class="btn btn-default">hinzuf&uuml;gen</button>
-</div>
-
-
-{% if has_next and next_page_number != None %}
-	<a href="{% url 'show' next_page_number %}">next</a>
-{% endif %}
-
+<form role="form" action="{% url 'show_contact' %}">
+	<label>go to page</label>
+	<input type="digit"/>
+	<input type="submit" value="go"/>
+</form>
+-->
 {% else %}
 <h2>hat nicht funktioniert</h2>
 {% endif %}

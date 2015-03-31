@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from django.shortcuts import render
@@ -44,13 +45,16 @@ def create(request, template = "adressbuch/contact/create.html"):
 				'adress_formset': adress_formset,	
 			})
 
-def show(request, page=1, template="adressbuch/contact/list.html"):
+def show(request, page=1, search=None, template="adressbuch/contact/list.html"):
 	"""
 	:param page: The current page of the contacts-paginator
 	"""
 	print "Hi"
 	# get all contacts into a list
-	contact_list = Contact.objects.all()
+	if(search==None):
+		contact_list = Contact.objects.all().order_by('-last_name')
+	else:
+		contact_list = Contact.objects.filter(Q(first_name__contains=search) | Q(second_name__contains=search) | Q(last_name__contains=search)).order_by('-last_name')
 	# use a paginator to only show a page of 20 elements of the list
 	paginator = Paginator(contact_list, 20)
 	# try to get the current page
@@ -68,6 +72,7 @@ def show(request, page=1, template="adressbuch/contact/list.html"):
 		'start_index': contacts.start_index(),
 		'end_index': contacts.end_index(),
 		'current_page': page,
+		'max_pages': paginator.num_pages,
 	}
 	# try to add the previous page number if it exists
 	try:
@@ -81,6 +86,9 @@ def show(request, page=1, template="adressbuch/contact/list.html"):
 	except(EmptyPage, InvalidPage):
 		kwargs['next_page_number'] = None
 
+	if(search!=None):
+		kwargs['search']= search
+
 	return render(request, template, kwargs)
 
 def update(request, pk, template="adressbuch/contact/update.html"):
@@ -93,6 +101,7 @@ def update(request, pk, template="adressbuch/contact/update.html"):
 		return HttpResponseForbidden()
 	"""
 	# check if contact with private_key = pk exists
+	print pk
 	try:
 		contact = Contact.objects.get(pk=pk)
 	except Contact.DoesNotExist:
@@ -125,7 +134,7 @@ def update(request, pk, template="adressbuch/contact/update.html"):
 
 def detail(request, pk, template="adressbuch/contact/detail.html"):
 	
-	print pk
+	#print pk
 	try:
 		contact = Contact.objects.get(pk=pk)
 	except Contact.DoesNotExist:
@@ -140,4 +149,13 @@ def detail(request, pk, template="adressbuch/contact/detail.html"):
 
 
 def delete(request, pk):	
+	try:
+		contact = Contact.objects.get(pk=pk)
+	except Contact.DoesNotExist:
+		raise Http404
+
+	contact.delete()
+	return HttpResponseRedirect(reverse('show_contact'))
+
+def search(request, search, template="adressbuch/contact/search.html"):
 	pass

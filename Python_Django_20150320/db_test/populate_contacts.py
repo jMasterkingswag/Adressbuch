@@ -4,7 +4,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'db_test.settings')
 import django
 django.setup()
 
-from db_test_app.models import Contact, Residence
+from adressbuch.models import *
+
+from django.contrib.contenttypes.models import ContentType
 
 first_names = ['Patrick', 'Jan', 'Peter', 'Hans', 'Inge', 'Anna', 'Lena', 'Heidi', 'Franz', 'Erhard', 'Dieter']
 last_names = ['Meier', 'Mueller', 'Schaeferling', 'Deutinger', 'Scholz', 'Schulz', 'Berndt', 'Kahn', 'Hoffmann']
@@ -15,26 +17,28 @@ def populate(steps):
 	
 	# Clear everything before
 	Contact.objects.all().delete()
-	Residence.objects.all().delete()
-	
-	createResidences()
 	
 	for i in range(0, steps):
-		createContact()
+		createAddress(createContact())
 	
 from random import randint
 
 residences = ['Woerth', 'Bissingen', 'Erding', 'Muenchen', 'Wolfsburg', 'Hamburg']
 zip_codes = ['85457', '87321', '89220', '86690', '77221', '66332']
+states = ["Bayern", "Baden-Wuertemberg", "Hamburg", "Hessen", "Berlin", "Sachsen"]
+streets = ['Unteranger', 'Parkstrasse', 'Leipziger Strasse', 'Freisinger Strasse', 'Hauptstrasse']
 
-def createResidences():
+def createAddress(contact):
 	
-	for res in range(0, len(residences) - 1):
-		r = Residence()
-		r.residence_name = residences[res]
-		r.zip_code = zip_codes[res]
-		residence_objects.append(r)
-		r.save()
+	for adr in range(0, randint(0, 10)):
+		a = Adress()
+		a.content_type_id = ContentType.objects.get_for_model(contact).id
+		a.object_id = contact.pk
+		a.city = residences[randint(0, len(residences) - 1)]
+		a.zip_code = zip_codes[randint(0, len(zip_codes) - 1)]
+		a.state = states[randint(0, len(states) - 1)]
+		a.streets = streets[randint(0, len(streets) - 1)]
+		a.save()
 	print len(residence_objects)
 
 def createContact():
@@ -46,8 +50,7 @@ def createContact():
 		str(randint(1, 12)),
 		str(randint(1, 28)),
 		])
-	c.email = c.first_name + "." + c.last_name + "@googlemail.com"
-	c.residence = residence_objects[randint(0,len(residence_objects)-1)]
 	c.save()
+	return c
 
 populate(1000)

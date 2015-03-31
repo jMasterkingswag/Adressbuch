@@ -5,6 +5,11 @@
 {% block body_block %}
 {% if contact %}
 <h2>{{ contact }}</h2>
+<h3>
+	<a class="glyphicon glyphicon-list" href="{% url 'show_contact' %}"></a>
+	<a class="glyphicon glyphicon-trash" href="{% url 'delete_contact' contact.pk %}"></a>
+	<a class="glyphicon glyphicon-pencil" href="{% url 'update_contact' contact.pk %}"></a>
+</h3>
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -43,5 +48,17 @@
 </table>
 {% endif %}
 
+<ul class="pager">
+	{% if contact.pk > 1 %}
+	<li class="previous"><a href="{% url 'show_contact' contact.pk %}">&larr; Older</a></li>
+	{% else %}
+	<li class="previous disabled"><a href="#">&larr; Older</a></li> 
+	{% endif %}
+	{% if contact.pk < 50 %}
+	<li class="next"><a href="{% url 'show_contact' contact.pk  %}">Newer &rarr;</a></li> 
+	{% else %}
+	<li class="next disabled"><a href="#">Newer &rarr;</a></li> 
+	{% endif %}
+</ul>
 {% endif %}
 {% endblock %}
