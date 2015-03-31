@@ -7,4 +7,5 @@ urlpatterns = patterns('adressbuch.views',
 	url(r'^create/$', 'contact.create', name = 'create_contact'),
 	url(r'^show/$', 'contact.show', name = 'show_contact'),
 	url(r'^update/(?P<pk>[\d\-])+/$', 'contact.update', name = 'update_contact'),
+	url(r'^detail/(?P<pk>[\d\-])+/$', 'contact.detail', name = 'contact_detail'),
 )

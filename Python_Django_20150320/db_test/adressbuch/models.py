@@ -12,6 +12,7 @@ class Contact(models.Model):
 	birth_date = models.DateField(blank = True)
 	title = models.CharField(max_length = 40, blank=True)
 	organisation = models.CharField(max_length = 100, blank = True)
+	#slug = models.SlugField()
 
 	address = GenericRelation('Adress')
 
@@ -25,17 +26,17 @@ class Adress(models.Model):
 	content_type = models.ForeignKey(ContentType,
 		limit_choices_to={'app_label': 'adressbuch'})
 
-	object_id = models.IntegerField(db_index=True)
+	object_id = models.PositiveIntegerField(db_index=True)
 	content_object = generic.GenericForeignKey()
 
-	contact = models.ForeignKey(Contact, related_name='adressen')
+	#contact = models.ForeignKey(Contact, related_name='adressen')
 	street = models.CharField(max_length = 50)
 	city = models.CharField(max_length = 50)
 	state = models.CharField(max_length = 50)
 	zip_code = models.CharField(max_length = 10)
 
 	def __unicode__(self):
-		return "a"
+		return u"%s (%s)" % (self.city, self.state)
 
 	class Meta:
 		verbose_name_plural = "Adresses"

@@ -10,7 +10,7 @@
 {% if object_list %}
 <ul class="list-group">
 	{% for object in object_list %}
-	<li class="list-group-item"><a href="{% url 'update_contact' object.pk %}">{{ object }}</a></li>
+	<li class="list-group-item"><a href="{% url 'update_contact' object.pk %}">{{ object }}{{ object.pk }}</a></li>
 	{% endfor %}
 </ul>
 <br>

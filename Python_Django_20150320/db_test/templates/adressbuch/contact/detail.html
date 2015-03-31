@@ -1,0 +1,47 @@
+{% extends 'adressbuch/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+{% if contact %}
+<h2>{{ contact }}</h2>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Daten</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Geburtstag</td>
+			<td>{{contact.birth_date}}</td>
+		</tr>
+		{% if contact.title %}
+		<tr>
+			<td>Titel</td>
+			<td>{{ contact.title }}</td>
+		</tr>
+		{% endif %}
+	</tbody>
+</table>
+
+{% if contact.address %}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Wohnorte</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for adress in contact.address.all %}
+		<tr>
+			<td>{{ adress }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+
+{% endif %}
+{% endblock %}

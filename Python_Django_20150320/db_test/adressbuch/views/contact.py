@@ -2,6 +2,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseServerError
+from django.core.urlresolvers import reverse
 
 from adressbuch.models import *
 from adressbuch.forms import *
@@ -19,17 +20,17 @@ def create(request, template = "adressbuch/contact/create.html"):
 
 	if request.method == 'POST':
 		contact_form = ContactForm(request.POST, user=request.user)
-		adress_formset = AdressFormSet(request.POST, prefix="form-control")
 
-		if(contact_form.is_valid() and adress_formset.is_valid()):
+		if(contact_form.is_valid()):
 			# Create new contact
 			contact = contact_form.save()
-			# iterate over each entered adress and save it
-			for form in adress_formset:
-				adress = form.save(commit = False)
-				# set the foreign key of the adress to the new contact
-				adress.contact = contact
-				adress.save()
+			adress_formset = AdressFormSet(request.POST, instance=contact)
+			
+			if adress_formset.is_valid():
+				# iterate over each entered adress and save it
+				adress_formset.save()
+			else:
+				contact.delete()
 
 			return HttpResponseRedirect(reverse('show_contact'))
 	else:
@@ -94,7 +95,7 @@ def update(request, pk, template="adressbuch/contact/update.html"):
 	# check if contact with private_key = pk exists
 	try:
 		contact = Contact.objects.get(pk=pk)
-	except contact.DoesNotExist:
+	except Contact.DoesNotExist:
 		raise Http404
 
 	if request.method == "POST":
@@ -121,6 +122,22 @@ def update(request, pk, template="adressbuch/contact/update.html"):
 		}
 
 	return render(request, template, kwvars)
+
+def detail(request, pk, template="adressbuch/contact/detail.html"):
+	
+	print pk
+	try:
+		contact = Contact.objects.get(pk=pk)
+	except Contact.DoesNotExist:
+		raise Http404
+
+	#get the adresses of the contact
+	kwvars = {
+		'contact': contact,
+	}
+
+	return render(request, template, kwvars)
+
 
 def delete(request, pk):	
 	pass
